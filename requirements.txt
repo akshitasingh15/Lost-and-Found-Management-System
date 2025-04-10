@@ -7,3 +7,5 @@ Flask-Cors==3.0.10
 pillow==10.2.0
 python-Levenshtein==0.23.0
 fuzzywuzzy==0.18.0
+gunicorn==21.2.0
+
