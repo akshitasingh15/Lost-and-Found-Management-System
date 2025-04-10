@@ -1,1 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lost & Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #c5c5ca;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 60px;
+        }
+        h1 {
+            color: #070F2B;
+            margin-bottom: 40px;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-button {
+            background-color: #1B1A55;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 250px;
+            transition: background-color 0.3s ease;
+        }
+        .nav-button:hover {
+            background-color: #535C91;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lost & Found System</h1>
+    <div class="button-container">
+        <a href="/add_lost"><button class="nav-button">Report Lost Item</button></a>
+        <a href="/add_found"><button class="nav-button">Report Found Item</button></a>
+        <a href="/view_lost"><button class="nav-button">View Lost Items</button></a>
+        <a href="/view_found"><button class="nav-button">View Found Items</button></a>
+    </div>
+</body>
+</html>
 
