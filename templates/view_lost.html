@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lost Items</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .lost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            transition: 0.3s;
+        }
+
+        .lost-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .details {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .details p {
+            margin: 6px 0;
+            color: #444;
+        }
+
+        .details p strong {
+            color: #222;
+        }
+
+        .image-section {
+            text-align: center;
+        }
+
+        .image-section img {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .claim-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 16px;
+            background-color: #1B1A55;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .claim-btn:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #070F2B;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Lost Items</h2>
+<a class="back-btn" href="/">← Home</a>
+
+{% for item in items %}
+<div class="lost-item">
+    <div class="details">
+        <p><strong>Item:</strong> {{ item[1] }}</p>
+        <p><strong>Description:</strong> {{ item[2] }}</p>
+        <p><strong>Location:</strong> {{ item[3] }}</p>
+        <p><strong>Date:</strong> {{ item[4] }}</p>
+        <p><strong>Status:</strong> {{ item[5] }}</p>
+    </div>
+    <div class="image-section">
+        {% if item[6] %}
+        <img src="{{ url_for('static', filename='uploads/' ~ item[6]) }}" alt="Item Image">
+        {% else %}
+            <p>No Image</p>
+        {% endif %}
+
+        {% if item[5] != 'Claimed' %}
+            <form method="POST" action="/claim_lost/{{ item[0] }}">
+                <button type="submit" class="claim-btn">Claim</button>
+            </form>
+        {% else %}
+            <button class="claim-btn" disabled>Claimed</button>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Lost Item</title>
+    <style>
+        body {
+            background-color: #c5c5ca;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .form-card {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        h2 {
+            color: #070F2B;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #1B1A55;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+        }
+
+        #preview {
+            max-width: 100%;
+            margin-top: 15px;
+            display: none;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #1B1A55;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #535C91;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #070F2B;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+        }
+
+        .message {
+            text-align: center;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <a class="back-btn" href="/">← Home</a>
+
+    <h2>Report Lost Item</h2>
+
+    {% if message %}
+    <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <label>Item Name:</label>
+        <input type="text" name="item_name" required>
+
+        <label>Description:</label>
+        <textarea name="description" required></textarea>
+
+        <label>Location:</label>
+        <input type="text" name="location" required>
+
+        <label>Date Lost:</label>
+        <input type="date" name="lost_date" required>
+
+        <label>Image:</label>
+        <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
+        <img id="preview" alt="Image Preview">
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    function previewImage(event) {
+        const preview = document.getElementById('preview');
+        const file = event.target.files[0];
+
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

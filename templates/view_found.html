@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Found Items</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .found-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .details {
+            flex: 1;
+        }
+        .image-section {
+            text-align: center;
+        }
+        .image-section img {
+            width: 150px;
+            border-radius: 10px;
+        }
+        .claim-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #1B1A55;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .claim-btn:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #070F2B;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #070F2B;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Found Items</h2>
+<a class="back-btn" href="/">← Home</a>
+
+{% for item in items %}
+<div class="found-item">
+    <div class="details">
+        <p><strong>Item Name:</strong> {{ item[1] }}</p>
+        <p><strong>Description:</strong> {{ item[2] }}</p>
+        <p><strong>Location:</strong> {{ item[3] }}</p>
+        <p><strong>Date:</strong> {{ item[4] }}</p>
+        <p><strong>Status:</strong> {{ item[5] }}</p>
+    </div>
+    <div class="image-section">
+        {% if item[6] %}
+        <img src="{{ url_for('static', filename='uploads/' ~ item[6]) }}" width="200">
+
+
+
+        {% else %}
+            <p>No Image</p>
+        {% endif %}
+
+        {% if item[5] != 'Claimed' %}
+            <form method="POST" action="/claim_lost/{{ item[0] }}">
+                <button type="submit" class="claim-btn">Claim</button>
+            </form>
+        {% else %}
+            <button class="claim-btn" disabled>Already Claimed</button>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+</body>
+</html>
