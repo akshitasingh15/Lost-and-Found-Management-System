@@ -54,11 +54,24 @@
         a.button:hover {
             background-color: #535C91;
         }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #070F2B;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
     <h2>Possible Matches</h2>
+    <a class="back-btn" href="/">← Home</a>
 
     {% if matches and matches|length > 0 %}
         {% for item in matches %}
