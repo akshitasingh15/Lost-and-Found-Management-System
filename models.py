@@ -19,7 +19,7 @@ def add_found_item(item_name, description, location, date, image_path=None):
     conn = connect()
     cursor = conn.cursor()
     cursor.execute("""
-            INSERT INTO Found_items (item_name, description, found_location, found_date, status, image_path)
+            INSERT INTO Found_Items (item_name, description, found_location, found_date, status, image_path)
             VALUES (%s, %s, %s, %s, %s, %s)
         """, (item_name, description, location, date, 'Pending', image_path))
     conn.commit()
