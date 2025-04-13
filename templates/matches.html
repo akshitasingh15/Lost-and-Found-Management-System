@@ -66,32 +66,65 @@
             color: white;
             font-size: 14px;
         }
+
+        .claim-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #1B1A55;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .claim-btn:hover {
+            background-color: #003bbd;
+        }
     </style>
 </head>
 <body>
 
     <h2>Possible Matches</h2>
+    <strong>Lost Id:</strong>{{ lost_id }}
     <a class="back-btn" href="/">← Home</a>
 
     {% if matches and matches|length > 0 %}
-        {% for item in matches %}
-        <div class="match-card">
-            <strong>Item Name:</strong> {{ item.item_name }}<br>
-            <strong>Description:</strong> {{ item.description }}<br>
-            <strong>Location:</strong> {{ item.found_location }}<br>
-            <strong>Date:</strong> {{ item.found_date }}<br>
-            {% if item.image_path %}
-                <img src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Image">
-            {% endif %}
-            <br><strong>Match Score:</strong> {{ item.match_score }}%
-        </div>
-        {% endfor %}
+        {% for match in matches %}
+    <div class="match-card">
+        <h3>{{ match.item_name }}</h3>
+        <p>{{ match.description }}</p>
+        <p><strong>Location:</strong> {{ match.found_location }}</p>
+        <p><strong>Date:</strong> {{ match.found_date }}</p>
+        <p><strong>Match Score:</strong> {{ match.match_score }}%</p>
+
+        {% if match.image_path %}
+            <img src="{{ url_for('static', filename='uploads/' + match.image_path) }}" alt="Found Item Image">
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('claim_lost', lost_id=lost_id, found_id=match.found_id) }}">
+            <button type="submit", class="claim-btn">Claim</button>
+        </form>
+    </div>
+{% endfor %}
+
     {% else %}
         <div class="no-matches">
-            <p>No matches found.</p>
-            <a class="button" href="{{ url_for('view_found') }}">View All Found Items</a>
+            <p>No matches found for the lost item.</p>
         </div>
     {% endif %}
-
 </body>
 </html>
+
+
+<script>
+function askForLostID() {
+    const lostId = prompt("Enter Lost ID:");
+
+    if (lostId !== null && lostId.trim() !== "") {
+        // Redirect to Flask route with the entered lost ID
+        window.location.href = `/matches/${lostId}`;
+    } else {
+        alert("Please enter a valid Lost ID.");
+    }
+}
+</script>
