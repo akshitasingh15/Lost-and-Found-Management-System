@@ -100,6 +100,7 @@
         <p><strong>Description:</strong> {{ item[2] }}</p>
         <p><strong>Location:</strong> {{ item[3] }}</p>
         <p><strong>Date:</strong> {{ item[4] }}</p>
+        <p><strong>Contact:</strong> {{ item[7] }}</p>
         <p><strong>Status:</strong> {{ item[5] }}</p>
     </div>
     <div class="image-section">
@@ -110,7 +111,7 @@
         {% endif %}
 
         {% if item[5] != 'Claimed' %}
-            <form method="POST" action="/claim_lost/{{ item[0] }}">
+            <form method="POST" action="/claim_lost_later/{{ item[0] }}">
                 <button type="submit" class="claim-btn">Claim</button>
             </form>
         {% else %}
