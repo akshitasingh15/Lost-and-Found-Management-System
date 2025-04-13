@@ -1,27 +1,26 @@
 from db import connect
 from fuzzywuzzy import fuzz
-from datetime import datetime
 from operator import itemgetter
 
-def add_lost_item(item_name, description, location, date, image_path=None):
+def add_lost_item(item_name, description, location, date, contact, image_path=None):
     conn = connect()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO Lost_Items (item_name, description, lost_location, lost_date, status, image_path)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """, (item_name, description, location, date, 'Pending', image_path))
+        INSERT INTO Lost_Items (item_name, description, lost_location, lost_date, status, image_path, contact)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """, (item_name, description, location, date, 'Pending',image_path, contact))
     item_id = cursor.lastrowid  # ✅ gets the auto-incremented ID
     conn.commit()
     conn.close()
     return item_id
 
-def add_found_item(item_name, description, location, date, image_path=None):
+def add_found_item(item_name, description, location, date, contact, image_path=None):
     conn = connect()
     cursor = conn.cursor()
     cursor.execute("""
-            INSERT INTO Found_Items (item_name, description, found_location, found_date, status, image_path)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (item_name, description, location, date, 'Pending', image_path))
+            INSERT INTO Found_Items (item_name, description, found_location, found_date, status, image_path, contact)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (item_name, description, location, date, 'Pending', image_path, contact))
     conn.commit()
     conn.close()
 
@@ -82,13 +81,11 @@ def get_matches(item_id, threshold=30):
             print("Skipping because found before lost")
             continue
 
-
         name_score = fuzz.partial_ratio(lost_name.lower(), item_dict['item_name'].lower())
         desc_score = fuzz.partial_ratio(lost_description.lower(), item_dict['description'].lower())
         location_score = fuzz.partial_ratio(lost_location.lower(), item_dict['found_location'].lower())
         date_score = fuzz.partial_ratio(str(lost_date), str(item_dict['found_date']))
 
-        # Weighted average: prioritize item_name
         avg_score = (
             name_score * 0.4 +
             desc_score * 0.3 +
